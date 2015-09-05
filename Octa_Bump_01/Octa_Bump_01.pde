@@ -1,7 +1,7 @@
 //Sketch properties
 String appName = "Octaedrite_BumpmappingTest";
 String version = "Alpha";
-String subVersion = "0.0.1";
+String subVersion = "0.0.2";
 String frameName;
 
 //Buffer
@@ -42,7 +42,7 @@ void setup()
   initBufferScreen();
   loadTextures();
   loadShapeShader();
-  init3DShape(1920, 1128, 0.25);
+  init3DShape(1920, 1128, 0.5);
 
   float fpsw = 250;
   float fpsh = 60;
