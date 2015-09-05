@@ -11,6 +11,7 @@ void setup() {
 }
 
 void draw() {
+  translate((width-(src.width*.5))/2, (height-(src.height*.5))/2);
   background(255);
   image(src, 0, 0, diffuse.width * .5, diffuse.height * .5);
   image(diffuse, 0, 0, diffuse.width * .5, diffuse.height * .5);
