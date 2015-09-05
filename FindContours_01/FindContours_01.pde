@@ -11,6 +11,7 @@ Contour c;
 PShape octa;
 
 ArrayList<PVector> vertList;
+ArrayList<PVector> normalList;
 ArrayList<Float> etaList;
 float amt;
 
@@ -31,8 +32,9 @@ void setup() {
   noiseSpeed = 0.01;
   c = contours.get(0);
   vertList = new ArrayList<PVector>();
+  normalList = new ArrayList<PVector>();
   etaList = new ArrayList<Float>();
-  computeShape(15, c.getPoints().size(), 250);
+  computeShape(150, c.getPoints().size(), 250);
 }
 
 void draw() {
@@ -44,7 +46,20 @@ void draw() {
   PVector actualLocation = vertList.get(computeNewPosition(speed)).get();
   float eta = etaList.get(computeNewPosition(speed));
 
- /* for (int i=0; i<etaList.size(); i++)
+  for (int i=0; i<vertList.size(); i++)
+   {
+    float size = 100;
+    PVector n = normalList.get(i);
+    PVector v = vertList.get(i);
+    n.normalize();
+    //n.add(v);
+    n.mult(size);
+    n.add(v);
+    stroke(255, 0, 255);
+    line(v.x, v.y, n.x, n.y);
+  }
+
+  /* for (int i=0; i<etaList.size(); i++)
    {
    PVector v = vertList.get(i).get();
    float theta = etaList.get(i);
@@ -58,7 +73,7 @@ void draw() {
 
   pushMatrix();
   translate(actualLocation.x, actualLocation.y);
-   //rotate(eta);
+  //rotate(eta);
   fill(0, 255, 0);
   noStroke();
   rectMode(CENTER);
@@ -101,9 +116,8 @@ void computeShape(int step, int ray, float previousSizeStrip)
       previousSizeStrip = noise(noiseOff) * size;
     } else
     {
-     
     }
-     previousnormal.mult(previousSizeStrip);
+    previousnormal.mult(previousSizeStrip);
     PVector normal = PVector.sub(vert, center);
     normal.normalize();
     normal.mult(sizeStrip);
@@ -124,10 +138,15 @@ void computeShape(int step, int ray, float previousSizeStrip)
 
     noiseOff += noiseSpeed;
 
+    
+    PVector n = new PVector((vert.y - previous.y)*-1, (vert.x - previous.x));
+    n.normalize();
+    normalList.add(n);
+
     PVector v = PVector.sub(vert.get(), center.get());
     PVector axis = new PVector(0, 70); 
     axis.normalize();
-     v.normalize();
+    v.normalize();
     float eta = PVector.angleBetween(v, axis);
     etaList.add(eta);
     vertList.add(previous);
