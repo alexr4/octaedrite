@@ -8,7 +8,7 @@ ArrayList<Contour> polygons;
 
 void setup() {
   src = loadImage("shape.jpg"); 
-  size(src.width, src.height/2);
+  size(src.width, src.height/2, P3D);
   opencv = new OpenCV(this, src);
 
   opencv.gray();
@@ -22,14 +22,15 @@ void setup() {
 void draw() {
   background(255);
   scale(0.5);
-  //image(src, 0, 0);
+  image(src, 0, 0);
   image(dst, src.width, 0);
   PVector center = new PVector(src.width/2, src.height/2);
   noFill();
-  strokeWeight(3);
+  strokeWeight(5);
   Contour c = contours.get(0);
-  //c.draw();
-  
+  stroke(0, 255, 0);
+  c.draw();
+  /*
   int step = floor(map(mouseY, 0, height, 1, c.getPoints().size()/10));
   int ray = constrain(floor(map(mouseX, 0, width/2, 2, c.getPoints().size())), 2, c.getPoints().size());
   float sizeStrip = 250;
@@ -59,6 +60,6 @@ void draw() {
     vertex(innerVert.x, innerVert.y);
   }
   vertex(c.getPoints().get(c.getPoints().size()-1).x, c.getPoints().get(c.getPoints().size()-1).y);
-  endShape(CLOSE);
+  endShape(CLOSE);*/
 }
 

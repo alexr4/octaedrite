@@ -12,7 +12,7 @@ PShape octa;
 
 void setup() {
   src = loadImage("shape.jpg"); 
-  size(src.width, src.height/2, P2D);
+  size(src.width, src.height/2, P3D);
   smooth(8);
   opencv = new OpenCV(this, src);
 

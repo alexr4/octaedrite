@@ -23,10 +23,10 @@ void draw() {
   ellipse(octaCenter.x, octaCenter.y, 20, 20);
 
   //ArrowDebug
-  displayOrientationArrow(10);
+  displayOrientationArrow(20, 25);
 
   //normals
-  displayNormals(20);
+  displayNormals(10);
 
   //follower
   //noisePosition(1);

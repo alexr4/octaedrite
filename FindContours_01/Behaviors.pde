@@ -16,7 +16,7 @@ void displayFollower()
   popStyle();
 }
 
-void displayOrientationArrow(float definition)
+void displayOrientationArrow(float definition, float dist)
 {
   pushStyle();
   for (int i=0; i<vertList.size (); i++)
@@ -24,7 +24,7 @@ void displayOrientationArrow(float definition)
     float eta = etaList.get(i);
     PVector loc = vertList.get(i).get();
     PVector locTogc = PVector.sub(loc, octaCenter);
-    locTogc.setMag(10);
+    locTogc.setMag(dist);
     loc.add(locTogc);
 
     pushMatrix();
