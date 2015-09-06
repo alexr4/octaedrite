@@ -29,7 +29,8 @@ void draw() {
   displayNormals(20);
 
   //follower
-  followContour(5);
+  //noisePosition(1);
+  followContour(10);
   displayFollower();
 }
 

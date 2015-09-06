@@ -95,6 +95,19 @@ void followContour(float s)
   followerAngle = etaList.get(computeNewPosition(followerSpeed));
 }
 
+void noisePosition(float s)
+{
+  s = s * 0.01;
+  amt = noise(noisePositionOffset);
+  amt = constrain(amt, 0, 1);
+  int pos = floor(lerp(0, vertList.size()-1, amt));
+  
+  followerLocation = vertList.get(pos).get();
+  followerAngle = etaList.get(pos);
+  
+  noisePositionOffset += s;
+}
+
 int computeNewPosition(float s)
 {
 

@@ -23,6 +23,7 @@ ArrayList<PVector> shapeVertList;
 float followerSpeed;
 PVector followerLocation;
 float followerAngle;
+float noisePositionOffset;
 
 //Init Methods
 void initOpenCV(PApplet context)
