@@ -42,7 +42,7 @@ void setup()
   initBufferScreen();
   loadTextures();
   loadShapeShader();
-  init3DShape(1920, 1128, 0.5);
+  init3DShape(1920, 1128, 0.25);
 
   float fpsw = 250;
   float fpsh = 60;
