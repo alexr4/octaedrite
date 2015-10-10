@@ -9,7 +9,7 @@ void computerBufferScreen()
 {
   bufferScreen.beginDraw();
   bufferScreen.background(10);
-  bufferScreen.translate(width/2, height/2, 200);
+  bufferScreen.translate(width/2, height/2, zoom);
   bufferScreen.rotateX(rotation.x);
   bufferScreen.rotateY(rotation.y);
   if (mousePressed && mouseButton == RIGHT)

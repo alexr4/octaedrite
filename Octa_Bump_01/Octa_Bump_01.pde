@@ -8,7 +8,7 @@ String frameName;
 PGraphics bufferScreen;
 
 //3DScene Variables
-float zoom = 0;
+float zoom = 200;
 PVector rotation = new PVector();
 PVector velocity = new PVector();
 float rotationSpeed = 0.01;
@@ -87,6 +87,18 @@ void mousePressed()
   } else if (mouseButton == RIGHT) // right button
   {
     //println("right");
+  }
+}
+
+void mouseWheel(MouseEvent event) {
+  float e = event.getCount();
+  if(e == -1)
+  {
+    zoom -= 25;
+  }
+  else if(e== 1)
+  {
+    zoom += 25;
   }
 }
 

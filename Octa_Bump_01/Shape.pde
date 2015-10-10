@@ -19,12 +19,12 @@ void loadShapeShader()
   octaShader.set("mask", textureList.get(2));
   octaShader.set("bumpmap", textureList.get(1));
   octaShader.set("displacement", textureList.get(3));
-  octaShader.set("kd", new PVector(.05, .05, .05));//0.25, 0.25, 0.25 //diffuse
-  octaShader.set("ka", new PVector(.15, .15, .15));//0.5, 0.5, 0.5 //ambient
-  octaShader.set("ks", new PVector(1, 1, 1));//1, 1, 1 //specular
-  octaShader.set("emissive", new PVector(.5, .5, .5));// new PVector(0.1, 0.1, 0.1));
-  octaShader.set("shininess", 500.0);
-  octaShader.set("minNormalEmissive", 0.15);
+  octaShader.set("kd", new PVector(0.25, 0.25, 0.25));//0.05, 0.05, 0.05 //diffuse
+  octaShader.set("ka", new PVector(0.25, 0.25, 0.25));//0.15, 0.15, 0.15 //ambient
+  octaShader.set("ks", new PVector(1, 1, 1));//specular
+  octaShader.set("emissive", new PVector(0.25, 0.25, 0.25));// new PVector(0.1, 0.1, 0.1));
+  octaShader.set("shininess", 100.0);
+  octaShader.set("minNormalEmissive", 0.2);//1.15);
 }
 
 void init3DShape(float w, float h, float scale)
@@ -39,7 +39,7 @@ void init3DShape(float w, float h, float scale)
   vertList.add(new PVector(-1 * fw, 1 * fh, 0));
   vertList.add(new PVector(-1 * fw, -1 * fh, 0));
   vertList.add(new PVector(1 * fw, -1 * fh, 0));
-  
+
   vertList.add(new PVector(-1 * fw, 1 * fh, 0));
   vertList.add(new PVector(1 * fw, -1 * fh, 0));
   vertList.add(new PVector(1 * fw, 1 * fh, 0));  
@@ -47,7 +47,7 @@ void init3DShape(float w, float h, float scale)
   colorList.add(new PVector(-1 * 255, 1 * 255, 0));
   colorList.add(new PVector(-1 * 255, -1 * 255, 0));
   colorList.add(new PVector(1 * 255, -1 * fh, 0));
-  
+
   colorList.add(new PVector(-1 * 255, 1 * 255, 0));
   colorList.add(new PVector(1 * 255, -1 * fh, 0));
   colorList.add(new PVector(1 * 255, 1 * 255, 0));
@@ -55,7 +55,7 @@ void init3DShape(float w, float h, float scale)
   normalList.add(new PVector(0, 0, 1));
   normalList.add(new PVector(0, 0, 1));
   normalList.add(new PVector(0, 0, 1));
-  
+
   normalList.add(new PVector(0, 0, 1));
   normalList.add(new PVector(0, 0, 1));
   normalList.add(new PVector(0, 0, 1));
@@ -63,7 +63,7 @@ void init3DShape(float w, float h, float scale)
   texCoord.add(new PVector(0, 1));
   texCoord.add(new PVector(0, 0));
   texCoord.add(new PVector(1, 0));
-  
+
   texCoord.add(new PVector(0, 1));
   texCoord.add(new PVector(1, 0));
   texCoord.add(new PVector(1, 1));
@@ -108,7 +108,7 @@ void showDebugStroke()
   octa.beginShape(TRIANGLES);
   octa.textureMode(NORMAL);
   octa.texture(textureList.get(0));
-   for (int i = 0; i<vertList.size()-2; i+=3)
+  for (int i = 0; i<vertList.size()-2; i+=3)
   {  
     octa.stroke(colorList.get(i).x, colorList.get(i).y, colorList.get(i).z);
     octa.normal(normalList.get(i).x, normalList.get(i).y, normalList.get(i).z);
