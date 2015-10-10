@@ -1,0 +1,29 @@
+[
+    [
+        {"stroke.r": 255, "stroke.g": 255, "stroke.b": 255, "stroke.a": 255},
+        {"strokeWidth": 1},
+        {"line.x": 197,"line.y":  -419},
+        {"line.x": 230, "line.y": -292},
+        {"line.x": 586, "line.y": -387},
+        {"line.x": 612, "line.y": -301},
+        {"line.x": 297, "line.y": -218},
+        {"line.x": 311, "line.y": -154},
+        {"line.x": 401, "line.y": -179},
+        {"line.x": 435, "line.y": -53},
+        {"line.x": 1042,"line.y": -239},
+        {"line.x": 1015,"line.y": -324},
+        {"line.x": 1320,"line.y": -420}
+    ],
+    [
+        {"stroke.r": 255, "stroke.g": 255, "stroke.b": 255, "stroke.a": 255},
+        {"strokeWidth": 1},
+        {"line.x": 540, "line.y": -691},
+        {"line.x": 563, "line.y": -597},
+        {"line.x": 441, "line.y": -559},
+        {"line.x": 467, "line.y": -453},
+        {"line.x": 761, "line.y": -544},
+        {"line.x": 774, "line.y": -494},
+        {"line.x": 392, "line.y": -377},
+        {"line.x": 402, "line.y": -338}
+    ]
+]
