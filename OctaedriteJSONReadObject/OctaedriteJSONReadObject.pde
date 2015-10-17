@@ -23,14 +23,11 @@ void setup() {
 void draw()
 {
   background(0);
-  for (Follower f : followerlist)
-  {
-    f.run();
-    f.displayFollower();
-    f.displayTail();
-  }
-
-  if (debug)
+  /*fill(0, 75);
+  rect(0, 0, width, height);*/
+  
+  
+   if (debug)
   {
     for (int i = 0; i < pathlist.size(); i++)
     {
@@ -43,6 +40,15 @@ void draw()
       p.displayLerpNormal(10);
     }
   }
+  
+  for (Follower f : followerlist)
+  {
+    f.run();
+    f.displayFollower();
+    f.displayTail();
+  }
+
+ 
 
   surface.setTitle("FPS : "+round(frameRate));
 }

@@ -1,7 +1,7 @@
 class Follower
 {
   float degrees;
-  float vd = 1;
+  float vd = 3;
   float sinWave;
   float orientation;
   int tailSize;
@@ -20,7 +20,7 @@ class Follower
   void run()
   {
     //vd = map(mouseX, 0, width, 0.001, 5);
-    vd = noise(frameCount * 0.1) * 1;
+   vd = noise(frameCount * 1) * 1;
     //println(vd);
 
     //checkEdge();

@@ -11,7 +11,7 @@ void loadJsonFile(JSONArray jsonfile, String fileName)
     for (int i = 0; i < jsonfile.size (); i++) {
       println("Creates shape : "+i);
       JSONArray path = jsonfile.getJSONArray(i);
-      pathlist.add(new Path(path, i, 500));
+      pathlist.add(new Path(path, i, 1000));
     }
     load = true;
   }
