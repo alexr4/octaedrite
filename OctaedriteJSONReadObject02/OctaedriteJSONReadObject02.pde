@@ -7,7 +7,7 @@ ArrayList<Path> pathlist;
 boolean debug = false;
 char[] charList = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
 char shapeIndex = '0';
-float scaleShape = 10;
+float scaleShape = 0.5;
 
 void setup() {
   size(1280, 720, P3D); //FX2D opacity not work
