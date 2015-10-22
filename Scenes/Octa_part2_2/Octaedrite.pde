@@ -36,14 +36,13 @@ void initOpenCV(PApplet context)
   dst = opencv.getOutput();
 
   contours = opencv.findContours();
-  println(contours.size());
   println("found " + contours.size() + " contours");
 }
 
 void initVariables()
 {
   diffuse = loadImage("diffuse.jpg");
-  octaPath = contours.get(7);
+  octaPath = contours.get(contours.size()-2);
   vertList = new ArrayList<PVector>();
   normalList = new ArrayList<PVector>();
   shapeVertList = new ArrayList<PVector>();
