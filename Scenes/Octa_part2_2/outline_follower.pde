@@ -22,14 +22,14 @@ class OutlineFollower
     initVariables();
     updateLead();
   }
-  
+
   void initVariables()
   {
-    
+
     lead = new PVector();
     speedNoise = random(0.001, 0.01);
     newPath = new ArrayList<PVector>();
-    
+
     minDistForPath = 1;
     meanForDiviation= 5;
     intensityList = new ArrayList<Float>();
@@ -64,6 +64,14 @@ class OutlineFollower
     computeNoiseNewPath(lead);
   }
 
+  void limitNewPath()
+  {
+    if (newPath.size() > limitNewPath)
+    {
+      newPath.remove(0);
+    }
+  }
+
   void computeNoiseNewPath(PVector v)
   {
     float oMag = v.mag();
@@ -73,7 +81,7 @@ class OutlineFollower
 
     v.normalize();
     v.mult(newMag);
-    
+
     if (newPath.size() == 0 || PVector.dist(v, newPath.get(newPath.size()-1).copy()) > minDistForPath)
     {
       newPath.add(v);
@@ -107,7 +115,7 @@ class OutlineFollower
     popStyle();
   }
 
-  void debugOriginalPath()
+  void debugOriginalPath(float intensity)
   {
     pushStyle();
     colorMode(HSB, originalPathList.size(), 100, 100);
@@ -116,13 +124,13 @@ class OutlineFollower
     for (int i=0; i<originalPathList.size(); i++)
     {
       PVector vert = originalPathList.get(i).copy();
-      stroke(i, 100, 100);
+      stroke(i, 100, 100, 255 * intensity);
       vertex(vert.x, vert.y);
     }
     endShape();
     popStyle();
   }
-  
+
   void clearAllPath()
   {
     newPath.clear();

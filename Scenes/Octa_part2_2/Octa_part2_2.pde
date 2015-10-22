@@ -58,9 +58,10 @@ void draw() {
 
   for (OutlineFollower of : ofList)
   {
-    //of.debugOriginalPath();
+    of.debugOriginalPath(0.25);
+    of.limitNewPath();
     of.updateLead();
-    //of.displayLead();
+    of.displayLead();
     of.displayNewPath();
   }
 
