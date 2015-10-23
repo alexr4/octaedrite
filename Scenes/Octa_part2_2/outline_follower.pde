@@ -1,12 +1,21 @@
-class OutlineFollower
+class OutlineFollower //<>//
 {
   int index;
   ArrayList<PVector> originalPathList;
+  PVector origin;
+  PVector fin;
+
+  //angle & radius
+  float eta, gamma;
+  float minRadius, maxRadius;
 
   //Lead
   PVector lead;
+  float normalPosition;
   float speedNoise;
   float noisePosition;
+  boolean finished;
+  boolean kill;
 
   //new path
   int limitNewPath;
@@ -15,9 +24,26 @@ class OutlineFollower
   float meanForDiviation;
   ArrayList<Float> intensityList;
 
-  OutlineFollower(int index_, ArrayList<PVector> globalList, float begin, float end, PVector anchor)
+
+  OutlineFollower(int index_, int onOff, ArrayList<PVector> globalList, float begin, float end, PVector anchor, float speed_)
   {
     index = index_;
+    if (onOff == 1)
+    {
+      finished = false;
+      kill = false;
+    } else if (onOff ==0)
+    {
+      finished = true;
+      kill = false;
+    } else if (onOff ==-1)
+    {
+      finished = true;
+      kill = true;
+    }
+
+    speedNoise = speed_;
+
     initOriginalPathList(globalList, begin, end, anchor);
     initVariables();
     updateLead();
@@ -27,11 +53,12 @@ class OutlineFollower
   {
 
     lead = new PVector();
-    speedNoise = random(0.001, 0.01);
+    //speedNoise = random(0.001, 0.01);
     newPath = new ArrayList<PVector>();
 
     minDistForPath = 1;
     meanForDiviation= 5;
+    limitNewPath = round(random(500, 1000));
     intensityList = new ArrayList<Float>();
   }
 
@@ -48,6 +75,16 @@ class OutlineFollower
         pathVertex.add(anchor);
         originalPathList.add(pathVertex);
       }
+
+      origin = originalPathList.get(0);
+      fin = originalPathList.get(originalPathList.size()-1);
+
+      eta = getAngleFromCenter(origin);
+      gamma = getAngleFromCenter(fin);
+
+      //println(degrees(eta), degrees(gamma));
+      computeMinMaxRadius();
+      //println(origin, fin);
     }
     catch(Exception e)
     {
@@ -55,20 +92,66 @@ class OutlineFollower
     }
   }
 
+  void computeMinMaxRadius()
+  {
+    minRadius = 1920;
+    for (PVector v : originalPathList)
+    {
+      float d = PVector.dist(v, center);
+      if (d < minRadius)
+      {
+        minRadius = d;
+      }
+    }
+
+    maxRadius = minRadius;
+    for (PVector v : originalPathList)
+    {
+      float d = PVector.dist(v, center);
+      if (d > maxRadius)
+      {
+        maxRadius = d;
+      }
+    }
+
+    //println(minRadius, maxRadius);
+  }
+
+  //run
+  void run()
+  {
+    if (!kill)
+    {
+      //limitNewPath();
+      displayNewPath();
+      if (!finished)
+      {
+        updateLead();
+        sendMessage(oscP5);
+      }
+    }
+  }
+
+
   void updateLead()
   {
-    int newLeadIndex = round(noise(noisePosition) * originalPathList.size());
+    normalPosition = noise(noisePosition);
+    int newLeadIndex = round(normalPosition * originalPathList.size());
     noisePosition += speedNoise;
 
-    lead = originalPathList.get(newLeadIndex).copy();
-    computeNoiseNewPath(lead);
+    if (newLeadIndex < originalPathList.size())
+    {
+      lead = originalPathList.get(newLeadIndex).copy();
+      computeNoiseNewPath(lead);
+    }
   }
 
   void limitNewPath()
   {
-    if (newPath.size() > limitNewPath)
+    if (newPath.size() >= limitNewPath)
     {
-      newPath.remove(0);
+      finished = true;
+      //newPath.remove(0);
     }
   }
 
@@ -85,7 +168,7 @@ class OutlineFollower
     if (newPath.size() == 0 || PVector.dist(v, newPath.get(newPath.size()-1).copy()) > minDistForPath)
     {
       newPath.add(v);
-      intensityList.add(gaussian * 255);
+      intensityList.add(gaussian);
     }
   }
 
@@ -103,13 +186,46 @@ class OutlineFollower
     pushStyle();
     noFill();
     stroke(255);
+    /*
     beginShape();
-    for (int i = 0; i<newPath.size(); i++)
+     for (int i = 1; i<newPath.size(); i++)
+     {
+     PVector v1 = newPath.get(i).copy();
+     PVector v0 = newPath.get(i-1).copy();
+     float distv0v1 = PVector.dist(v1, v0);
+     float opacity = map(distv0v1, 0, 25, 255, 0);
+     float intensity = intensityList.get(i);
+     stroke(255, opacity);//intensity * 255);
+     
+     vertex(v1.x, v1.y);
+     }
+     endShape();*/
+    beginShape();
+    float minDist = 20;
+    for (int i = 1; i<newPath.size(); i++)
     {
-      PVector v = newPath.get(i).copy();
+      PVector v1 = newPath.get(i).copy();
+      PVector v0 = newPath.get(i-1).copy();
+      float distv0v1 = PVector.dist(v1, v0);
+      float opacity = map(distv0v1, 0, minDist, 255, 0);
       float intensity = intensityList.get(i);
-      stroke(255, intensity);
-      vertex(v.x, v.y);
+      if (distv0v1 < minDist)
+      {
+        stroke(255, opacity);//intensity * 255);
+
+        /*
+        beginShape(LINES);
+         vertex(v1.x, v1.y);
+         vertex(v0.x, v0.y);
+         endShape();
+         */
+        //line(v1.x, v1.y, v0.x, v0.y);
+      } else
+      {
+        stroke(255, 0, 0, 0);
+      }
+      vertex(v0.x, v0.y);
+      vertex(v1.x, v1.y);
     }
     endShape();
     popStyle();
@@ -133,8 +249,67 @@ class OutlineFollower
 
   void clearAllPath()
   {
-    newPath.clear();
-    initVariables();
-    updateLead();
+    kill = true;
+    //newPath.clear();
+    //initVariables();
+    //updateLead();
+  }
+
+  //OSC
+  void sendMessage(OscP5 oscp5) {
+    OscMessage myMessage = new OscMessage("/P5_scene2_2");
+
+    myMessage.add(index);
+    myMessage.add(getNormLeadAngle());
+    myMessage.add(getNormRadius());
+    myMessage.add(normalPosition);
+    myMessage.add(intensityList.get(intensityList.size()-1));
+
+    /* send the message */
+    oscP5.send(myMessage, myRemoteLocation); 
+    //println(index, normX, normY, normalPosition, intensityList.get(intensityList.size()-1));
+  }
+
+  //get
+  float getAngleFromCenter(PVector vert)
+  {
+    PVector ctov = PVector.sub(vert, center);
+    ctov.normalize();
+    PVector axis = new PVector(1, 0);
+    float phi = PVector.angleBetween(ctov, axis);
+
+    PVector cross = ctov.cross(axis);
+    //println(cross);
+
+    if (cross.z > 0)
+    {
+      phi = TWO_PI - (PI + phi) -HALF_PI;
+    } else
+    {
+    }
+
+    if (degrees(phi) <0)
+    {
+      phi = PI + abs(phi);
+    }
+
+    return phi;
+  }
+
+  float getNormLeadAngle()
+  {
+    float beta = getAngleFromCenter(lead);
+    float e = norm(beta, eta, gamma);
+
+    return e;
+  }
+
+  float getNormRadius()
+  {
+    float radius = PVector.dist(lead, center);
+    float normRad = norm(radius, minRadius, maxRadius);
+    normRad = constrain(normRad, 0.0, 1.0);
+
+    return normRad;
   }
 }

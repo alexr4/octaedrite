@@ -36,19 +36,83 @@ void sendMessage(int index, float locX, float locY) {
 /* incoming osc message are forwarded to the oscEvent method. */
 void oscEvent(OscMessage theOscMessage) {
   /* print the address pattern and the typetag of the received OscMessage */
-  println("### received an osc message.");
-   print(" addrpattern: "+theOscMessage.addrPattern());
-   println(" typetag: "+theOscMessage.typetag());
+   println("### received an osc message. "+theOscMessage.typetag());
+   /*print(" addrpattern: "+theOscMessage.addrPattern());
+   println(" typetag: "+theOscMessage.typetag());*/
 
-  if (theOscMessage.checkAddrPattern("/traj")==true) {
-    println("/traj");
-    if (theOscMessage.checkTypetag("ii")) {
-      //index = theOscMessage.get(0).intValue();  
-      //anim = theOscMessage.get(1).intValue();
-      //String thirdValue = theOscMessage.get(2).stringValue();
-      println ("### received an osc message /test with typetag ifs.");
-      //println(" values: "+index+", "+anim);//+", "+thirdValue);
+  //scene-2-2
+  if (theOscMessage.checkAddrPattern("/scene2_2_P5") == true) {
+    println("/scene2_2_p5");
+    //addNewLine(theOscMessage);
+    if (theOscMessage.checkTypetag("iifff")) {
+      int index = theOscMessage.get(0).intValue();
+      int onOff = theOscMessage.get(1).intValue();
+      float begin = theOscMessage.get(2).floatValue();
+      float end = theOscMessage.get(3).floatValue();
+      float speed = theOscMessage.get(4).floatValue();
+
+      ofList.add(new OutlineFollower(index, onOff, vertList, begin, end, globalCoord, speed));
+
+      println("index : "+index+" ofList.size() : "+ofList.size());
+      println("\t index : "+index+" onOff "+onOff+" begin : "+begin+" end : "+end+" speed : "+speed);
+      globalIndex++;
+      //println(" values: "+index+", "+onOff+", "+begin+", "+end+", "+speed);
       return;
     }
+
+    stopLine(theOscMessage);
+  }
+}
+
+void addNewLine(OscMessage theOscMessage)
+{
+  if (theOscMessage.checkTypetag("iifff")) {
+    int index = theOscMessage.get(0).intValue();
+    int onOff = theOscMessage.get(1).intValue();
+    float begin = theOscMessage.get(2).floatValue();
+    float end = theOscMessage.get(3).floatValue();
+    float speed = theOscMessage.get(4).floatValue();
+
+    ofList.add(new OutlineFollower(index, onOff, vertList, begin, end, globalCoord, speed));
+
+    println("index : "+index+" ofList.size() : "+ofList.size());
+    globalIndex++;
+    //println(" values: "+index+", "+onOff+", "+begin+", "+end+", "+speed);
+    return;
+  }
+}
+
+void stopLine(OscMessage theOscMessage)
+{
+  if (theOscMessage.checkTypetag("ii")) {
+    int index = theOscMessage.get(0).intValue();
+    int onOff = theOscMessage.get(1).intValue();
+
+    if (index < ofList.size())
+    {
+      if (onOff == 0)
+      {
+        try {
+          println("stop line "+index+" "+onOff+" "+ofList.size());
+          ofList.get(index).finished = true;
+        }
+        catch(Exception e)
+        {
+          println("\t"+e);
+        }
+      } else if (onOff == -1)
+      {
+        try {
+          println("Kill line "+index+" "+onOff+" "+ofList.size());
+          ofList.get(index).clearAllPath();
+          //ofList.remove(index);
+        }
+        catch(Exception e)
+        {      
+          println("\t"+e);
+        }
+      }
+    }
+    return;
   }
 }

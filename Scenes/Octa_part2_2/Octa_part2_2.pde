@@ -2,6 +2,7 @@ import gab.opencv.*;
 
 PVector globalCoord;
 float globalScale;
+PVector center;
 
 boolean displayOCVsource = false;
 boolean displayDiffuse = false;
@@ -15,32 +16,27 @@ boolean updateFollowerNoisePosition;
 
 ArrayList<OutlineFollower> ofList;
 int ofLimit;
+int globalIndex = 0;
 
 
 void setup() {
-  size(1280, 720, P3D);
+  //size(1920, 1080, P3D);
+  //surface.setLocation(0, 0);
+  fullScreen(P3D);
   smooth(8);
-  
+
   //OSCCLIENT
-  initOSCP5("169.254.239.251", 1111);
-  
+  initOSCP5("129.102.64.222", 1111);
+
   PApplet context = this;
   initOpenCV(context);
   initVariables();
   globalScale = 0.5;
   globalCoord = new PVector((width-(src.width*globalScale))/2, (height-(src.height*globalScale))/2);
-  computeShape(6, octaPath.getPoints().size(), globalScale, 5, 50);
+  computeShape(8, octaPath.getPoints().size(), globalScale, 5, 50);
+  center =  new PVector(octaCenter.x+globalCoord.x, octaCenter.y+globalCoord.y);
 
-  ofList = new ArrayList<OutlineFollower>();
-  ofLimit = 6;
-  float res = 1.0 / ofLimit;
-  for (int i = 0; i< ofLimit; i++)
-  {
-    float begin = i * res;//random(0, 0.90);
-    float end = begin + res;//random(begin, 1);
-    ofList.add(new OutlineFollower(i, vertList, begin, end, globalCoord));
-  }
-
+  initTest();
   background(0);
 }
 
@@ -48,24 +44,46 @@ void draw() {
   background(0);
   displayDiffuse(displayDiffuse, globalCoord, globalScale);
   displayOCVsource(displayOCVsource, 0.10);
-  displayShape(displayShape, globalCoord);
+  //displayShape(displayShape, globalCoord);
   displayShapeCenter(displayShapeCenter, globalCoord);
   displayOrientationArrow(displayOrientationArrow, globalCoord);
   displayNormals(displayNormals, globalCoord);
-  /* displayProgressiveShape(displayProgressiveShape, globalCoord, 200);
-   displayFollower(displayFollower, globalCoord, updateFollowerNoisePosition);*/
-  //displayPath(true, globalCoord);
+  displayPath(displayShape, globalCoord);
 
-  for (OutlineFollower of : ofList)
+
+
+  try {
+    if (ofList.size() > 0)
+    {
+      for (int i=0; i<ofList.size(); i++)
+      {
+        OutlineFollower of = ofList.get(i);
+
+        //of.debugOriginalPath(0.25);
+        of.displayLead();
+        of.run();
+      }
+    }
+  }
+  catch(Exception e)
   {
-    of.debugOriginalPath(0.25);
-    of.limitNewPath();
-    of.updateLead();
-    of.displayLead();
-    of.displayNewPath();
+    println(e+" ofList.size() : "+ofList.size());
   }
 
+
   surface.setTitle( "FPS : " +round(frameRate));
+  fill(255);
+  text(round(frameRate), 20, 20);
+}
+
+void mousePressed()
+{
+  noLoop();
+}
+
+void mouseReleased()
+{
+  loop();
 }
 
 void keyPressed()
@@ -106,11 +124,29 @@ void keyPressed()
   {
     updateFollowerNoisePosition = !updateFollowerNoisePosition;
   }
-  if(key == 'p')
+  if (key == 'p')
   {
-    for(OutlineFollower of : ofList)
+    for (OutlineFollower of : ofList)
     {
       of.clearAllPath();
     }
+  }
+  if (key == 'f')
+  {
+    ofList.clear();
+    initTest();
+  }
+}
+
+void initTest()
+{
+  ofList = new ArrayList<OutlineFollower>();
+  ofLimit = 10;
+  float res = 1.0 / ofLimit;
+  for (int i = 0; i< ofLimit; i++)
+  {
+    float begin = i * res;//random(0, 0.90);
+    float end = random(begin, 1);//begin + res;//random(begin, 1);
+    ofList.add(new OutlineFollower(i, 1, vertList, begin, end, globalCoord, random(0.05, 0.1)));
   }
 }
