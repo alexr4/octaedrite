@@ -36,7 +36,8 @@ void setup() {
   computeShape(8, octaPath.getPoints().size(), globalScale, 5, 50);
   center =  new PVector(octaCenter.x+globalCoord.x, octaCenter.y+globalCoord.y);
 
-  initTest();
+  ofList = new ArrayList<OutlineFollower>();
+  //initTest();
   background(0);
 }
 
