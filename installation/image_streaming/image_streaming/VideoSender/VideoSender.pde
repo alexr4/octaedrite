@@ -12,6 +12,8 @@ DatagramSocket ds;
 // Capture object
 Capture cam;
 
+boolean firstImage;
+
 void setup() {
   size(320, 240);
   // Setting up the DatagramSocket, requires try/catch
@@ -39,7 +41,7 @@ void setup() {
 
     // The camera can be initialized directly using an element
     // from the array returned by list():
-    cam = new Capture(this, cameras[9]);
+    cam = new Capture(this, cameras[35]); //33
     // Or, the settings can be defined based on the text in the list
     //cam = new Capture(this, 640, 480, "Built-in iSight", 30);
 
@@ -53,6 +55,14 @@ void captureEvent( Capture c ) {
   c.read();
   // Whenever we get a new image, send it!
   broadcast(c);
+  if(!firstImage)
+  {
+    println("cam has started at "+cam.width+" × "+cam.height);
+    firstImage = true;
+  }
+  else
+  {
+  }
 }
 
 void draw() {
@@ -64,7 +74,6 @@ void draw() {
 // Special thanks to: http://ubaa.net/shared/processing/udp/
 // (This example doesn't use the library, but you can!)
 void broadcast(PImage img) {
-
   // We need a buffered image to do the JPG encoding
   BufferedImage bimg = new BufferedImage( img.width, img.height, BufferedImage.TYPE_INT_RGB );
 
@@ -82,6 +91,7 @@ void broadcast(PImage img) {
     ImageIO.write(bimg, "jpg", bos);
   } 
   catch (IOException e) {
+    println("has stop working on ImageIO.write(bimg, jpg, bos)");
     e.printStackTrace();
   }
 
@@ -89,11 +99,12 @@ void broadcast(PImage img) {
   byte[] packet = baStream.toByteArray();
 
   // Send JPEG data as a datagram
-  println("Sending datagram with " + packet.length + " bytes");
+  //println("Sending datagram with " + packet.length + " bytes");
   try {
     ds.send(new DatagramPacket(packet, packet.length, InetAddress.getByName("localhost"), clientPort));
   } 
   catch (Exception e) {
+    println("has stop working ds.send(new DatagramPacket(packet, packet.length, InetAddress.getByName(localhost), clientPort));");
     e.printStackTrace();
   }
 }

@@ -8,8 +8,12 @@ class ReceiverThread extends Thread {
   // Port we are receiving.
   int port = 9100; 
   DatagramSocket ds; 
-  // A byte array to read into (max size of 65536, could be smaller)
-  byte[] buffer = new byte[65536]; 
+  /* A byte array to read into (max size of 65536, could be smaller)
+   The correct maximum UDP message size is 65507, 
+   as determined by the following formula: 
+   0xffff - (sizeof(IP Header) + sizeof(UDP Header)) = 65535-(20+8) = 65507
+   */
+  byte[] buffer = new byte[65536];
 
   boolean running;    // Is the thread running?  Yes or no?
   boolean available;  // Are there new tweets available?
@@ -17,14 +21,16 @@ class ReceiverThread extends Thread {
   // Start with something 
   PImage img;
 
-  ReceiverThread (int w, int h) {
-    img = createImage(w,h,RGB);
+  ReceiverThread (int w, int h, int port_) {
+    port = port_;
+    img = createImage(w, h, RGB);
     running = false;
     available = true; // We start with "loading . . " being available
 
     try {
       ds = new DatagramSocket(port);
-    } catch (SocketException e) {
+    } 
+    catch (SocketException e) {
       e.printStackTrace();
     }
   }
@@ -93,4 +99,3 @@ class ReceiverThread extends Thread {
     interrupt();
   }
 }
-
