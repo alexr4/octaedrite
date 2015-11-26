@@ -18,11 +18,12 @@ void setup()
 {
   size(500, 500, P3D);
   //OSCCLIENT
-  initOSCP5("129.102.0.12", 1111, 12000);
+  initOSCP5("127.0.0.1", 12000, 12000);
 
 
   appParameter();
   surface.setLocation(0, 0);
+  println("-----------------------------------------------\n\n");
 }
 
 void draw()

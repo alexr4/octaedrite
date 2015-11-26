@@ -257,7 +257,7 @@ class OutlineFollower //<>//
 
   //OSC
   void sendMessage(OscP5 oscp5) {
-    OscMessage myMessage = new OscMessage("/P5_scene2_2");
+    OscMessage myMessage = new OscMessage("/P5_scene01_01");
 
     myMessage.add(index);
     myMessage.add(getNormLeadAngle());

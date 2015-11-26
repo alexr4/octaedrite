@@ -4,7 +4,6 @@ String version = "Alpha";
 String subVersion = "0.0.0";
 String frameName;
 
-
 //App Parameters
 void appParameter()
 {

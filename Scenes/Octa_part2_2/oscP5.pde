@@ -22,7 +22,7 @@ void initOSCP5(String IP, int port)
 
 void sendMessage(int index, float locX, float locY) {
   /* in the following different ways of creating osc messages are shown by example */
-  OscMessage myMessage = new OscMessage("/test");
+  OscMessage myMessage = new OscMessage("/P5_scene01_01");
 
   myMessage.add(index);
   myMessage.add(locX); /* add an int to the osc message */
@@ -41,8 +41,8 @@ void oscEvent(OscMessage theOscMessage) {
    println(" typetag: "+theOscMessage.typetag());*/
 
   //scene-2-2
-  if (theOscMessage.checkAddrPattern("/scene2_2_P5") == true) {
-    println("/scene2_2_p5");
+  if (theOscMessage.checkAddrPattern("/scene01_01_P5") == true) {
+    println("/scene01_01_P5");
     //addNewLine(theOscMessage);
     if (theOscMessage.checkTypetag("iifff")) {
       int index = theOscMessage.get(0).intValue();
@@ -98,7 +98,7 @@ void stopLine(OscMessage theOscMessage)
         }
         catch(Exception e)
         {
-          println("\t"+e);
+          println("\t at stop line "+e);
         }
       } else if (onOff == -1)
       {
@@ -109,7 +109,7 @@ void stopLine(OscMessage theOscMessage)
         }
         catch(Exception e)
         {      
-          println("\t"+e);
+          println("\t at Kill line "+e);
         }
       }
     }

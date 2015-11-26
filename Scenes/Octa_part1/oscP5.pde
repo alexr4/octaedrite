@@ -22,7 +22,7 @@ void initOSCP5(String IP, int port)
 
 void sendMessage(int index, int onOff) {
   /* in the following different ways of creating osc messages are shown by example */
-  OscMessage myMessage = new OscMessage("/P5_scene1");
+  OscMessage myMessage = new OscMessage("/P5_scene00_00");
 
   myMessage.add(index);
   myMessage.add(onOff);
@@ -35,10 +35,10 @@ void sendMessage(int index, int onOff) {
 
 /* incoming osc message are forwarded to the oscEvent method. */
 void oscEvent(OscMessage theOscMessage) {
-
+  
   //scene-2-2
-  if (theOscMessage.checkAddrPattern("/scene1_P5") == true) {
-   // println("plop");
+  if (theOscMessage.checkAddrPattern("/scene00_00_P5") == true) {
+    // println("plop");
     drawLine(theOscMessage);
   }
 }
@@ -54,14 +54,14 @@ void drawLine(OscMessage theOscMessage)
     {
       if (index > followerlist.size()-1)
       {
+        println("Create new line");
         followerlist.add(new Follower(pathlist.get(index), index, onOff, speed, 6, 1));
       } else
       {
         followerlist.get(index).setSpeed(speed);
         followerlist.get(index).setOpacity(opacity);
       }
-    }
-    else if(onOff == 0)
+    } else if (onOff == 0)
     {
       try {
         println("Erase line "+index+" "+onOff+" "+followerlist.size()+" speed : "+speed);
@@ -76,7 +76,7 @@ void drawLine(OscMessage theOscMessage)
     }
     //println("index : "+index+" followerlist.size() : "+followerlist.size());
     globalIndex++;
-    println(" values: "+index+", "+onOff+", "+speed+", "+opacity);
+    //println(" values: "+index+", "+onOff+", "+speed+", "+opacity);
     return;
   }
 }

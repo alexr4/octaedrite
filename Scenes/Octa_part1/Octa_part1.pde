@@ -13,11 +13,11 @@ float scaleShape = 5;
 int globalIndex;
 
 void setup() {
-  //size(1280, 720, P3D); //FX2D opacity not work
+  size(1280, 720, P3D); //FX2D opacity not work
   smooth(8);
-  fullScreen(P3D);
+  //fullScreen(P3D);
   //OSCCLIENT
-  initOSCP5("129.102.64.222", 1111);
+  initOSCP5("169.254.138.244", 1111);
 
   loadJsonFile(linePathFile, "linePath_RAW");
   followerlist = new ArrayList<Follower>();

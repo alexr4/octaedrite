@@ -20,13 +20,13 @@ int globalIndex = 0;
 
 
 void setup() {
-  //size(1920, 1080, P3D);
+  size(1280, 720, P3D);
   //surface.setLocation(0, 0);
-  fullScreen(P3D);
+  //fullScreen(P3D);
   smooth(8);
 
   //OSCCLIENT
-  initOSCP5("129.102.64.222", 1111);
+  initOSCP5("169.254.138.244", 1111);
 
   PApplet context = this;
   initOpenCV(context);

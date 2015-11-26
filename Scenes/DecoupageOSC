@@ -1,8 +1,8 @@
-/*
+
 info : 
 R : Message Max/Msp to Processing (entête);
 S : Message Processing to Max/Msp (entête);
-onOff : int between -1, 0, 1; (0 : begin; 1 : end; -1 : erase);
+onOff : int between -1, 0, 1; (0 : end; 1 : begin; -1 : erase);
 float : normalized value only;
 
 Scene 1_1 : Page 3 à 8
@@ -56,6 +56,5 @@ Scene 3_4 : Page 26 à 27
   R Pattern : /scene02_03_P5
   i : int Top/End : Debut/Fin de la scène
   if : int index, float speed : ajouter une bande de scanner
-  S Pattern : /P5_scene03_02
+  S Pattern : /P5_scene03_03
   if : int index, float collisionPosition : envoi des données du scanner
-*/
