@@ -33,12 +33,15 @@ class Follower
   boolean sendOscAtEnd;
   boolean finalEndAnimation;
 
+  //Lights
+
   Follower(Path p, float speed_)
   {
     speed = speed_;
     path = p;
     shapeStyle = 0;
     initVariables();
+
   }
 
   Follower(Path p, float speed_, int shapeStyle_)
@@ -61,6 +64,7 @@ class Follower
     path = p;
     path.initLerpShape(weight, 0, 0, 0, weight*0.2);
     initVariables();
+
   }
 
   void initVariables()
@@ -214,7 +218,7 @@ class Follower
     endShape();
     popStyle();
   }
-  
+
   void showPath()
   {
     pushStyle();
@@ -223,8 +227,7 @@ class Follower
     beginShape();
     for (PVector v : shapePath)
     {
-        vertex(v.x, v.y);
-      
+      vertex(v.x, v.y);
     }
     endShape();
     popStyle();
@@ -245,6 +248,47 @@ class Follower
     line(0, 0, 20, 0);
     popStyle();
     popMatrix();
+  }
+
+  /*------- BUFFER -----*/
+  void displayTail(PGraphics buffer)
+  {
+
+    buffer.pushStyle();
+    buffer.noStroke();
+    buffer.fill(255, opacity);
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (int i=tailLocIndex; i>=actualTailLimit+1; i--)
+    {
+      if (i<tailOddIndex.size()-1 && i<centerPath.size()-1)
+      {
+
+        float lerpLevel = 1;
+        if (i > tailLocIndex-tailFade)
+        {
+          lerpLevel = map(i, tailLocIndex-tailFade, tailLocIndex, 0, 1);
+        } else if (i < actualTailLimit+tailFade)
+        {
+          lerpLevel = map(i, actualTailLimit, actualTailLimit+tailFade, 1, 0);
+        } else
+        {
+          lerpLevel = 0;
+        }
+
+        int odd = tailOddIndex.get(i);
+        int even = tailEvenIndex.get(i);
+
+        PVector v0 = shapePath.get(odd).copy().lerp(centerPath.get(i).copy(), lerpLevel);
+        PVector v1 = shapePath.get(even).copy().lerp(centerPath.get(i).copy(), lerpLevel);
+
+        buffer.vertex(v0.x, v0.y);
+        buffer.vertex(v1.x, v1.y);
+      }
+    }
+    buffer.endShape();
+    
+    buffer.ellipse(getHeadPosition().x, getHeadPosition().y, 20, 20);
+    buffer.popStyle();
   }
 
   void updateFollowerVariables()
@@ -283,5 +327,10 @@ class Follower
   boolean getFinalEndAnimation()
   {
     return finalEndAnimation;
+  }
+  
+  PVector getHeadPosition()
+  {
+    return centerPath.get(headLocIndex).copy();
   }
 }

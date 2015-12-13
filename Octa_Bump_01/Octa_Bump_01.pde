@@ -60,6 +60,7 @@ void draw()
   
   fill(127);
   text("NAVIGATION :\n\nClick Left & Drag to move camera\nDouble-Click Right to center view\nPress 'd' to show activate/desactivate the debug mode", 20, height-(fpstracker.h*2) - 20);
+  println(zoom);
 }
 
 //App Parameters

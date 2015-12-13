@@ -11,7 +11,7 @@ char shapeIndex = '0';
 float scaleShape = 5;
 
 void setup() {
-  size(1280, 720, P3D); //FX2D opacity not work
+  size(1920, 1080, P3D); //FX2D opacity not work
   smooth(8);
   colorMode(HSB, 360, 100, 100, 100);
   loadJsonFile(linePathFile, "linePath_RAW");

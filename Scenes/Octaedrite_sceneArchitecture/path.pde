@@ -26,15 +26,15 @@ class Path
   ArrayList<PVector> lerpShapeRandomGaussianVertList;
   ArrayList<PVector> lerpShapeRandomGaussianSinVertList;
 
-  Path(JSONArray jsa, int indexPath_, float resolution_, float destw_, float desth_)
+  Path(JSONArray jsa, int indexPath_, float resolution_, float destw_, float desth_, float offsetX_, float offsetY_)
   {
     indexPath = indexPath_;
     initVariables(resolution_);
-    initPath(jsa, indexPath, destw_, desth_);
+    initPath(jsa, indexPath, destw_, desth_, offsetX_, offsetY_);
     unwarpPath(1.0);
   }
 
-  Path(JSONArray jsa, int indexPath_, float resolution_, float destw_, float desth_, float scale_, float noisePower_, float  minScale_, float  maxScale_, float deviation_)
+  Path(JSONArray jsa, int indexPath_, float resolution_, float destw_, float desth_, float offsetX_, float offsetY_, float scale_, float noisePower_, float  minScale_, float  maxScale_, float deviation_)
   {
     scale = scale_; 
     noisePower=noisePower_;  
@@ -43,7 +43,7 @@ class Path
     deviation = deviation_;
     indexPath = indexPath_;
     initVariables(resolution_);
-    initPath(jsa, indexPath, destw_, desth_);
+    initPath(jsa, indexPath, destw_, desth_, offsetX_, offsetY_);
     unwarpPath(1.0);
     initLerpShape(scale, noisePower, minScale, maxScale, deviation);
   }
@@ -64,10 +64,11 @@ class Path
     lerpVertList = new ArrayList<PVector>();
   }
 
-  void initPath(JSONArray jsa, int indexPath, float destw_, float desth_)
+  void initPath(JSONArray jsa, int indexPath, float destw_, float desth_, float offsetX_, float offsetY_)
   {     
-    println("Scale : "+scale);
-    
+    float offsetX = (1920 - offsetX_ * 2) / 2 - 150;
+    float offsetY = (1080 - offsetY_* 2) / 2 - 80; 
+
     pathShape.beginShape();
     pathShape.noFill();
 
@@ -95,9 +96,10 @@ class Path
       {
         float vertx = item.getFloat("line.x");
         float verty = item.getFloat("line.y"); //Hack : it's seems drawScript set y value from height - y
-        vertx = norm(vertx, 0, 1920) * destw_;
-        verty = norm(verty, 0, 1080) * desth_;
+        vertx = offsetX + norm(vertx, 0, 1920) * destw_;
+        verty = offsetY + norm(verty, 0, 1080) * desth_;
         PVector vert = new PVector(vertx, verty);
+
         println("\tshape : "+indexPath+" — item : "+j+" : vertex : "+vert);
 
         shapeVertList.add(vert);
@@ -798,13 +800,13 @@ class Path
       norm1.mult(ns);
       norm1.rotate(phi);
       norm1.add(v0);
-      
-      PVector n0 = PVector.sub(norm0,v0);
-      PVector n1 = PVector.sub(norm1,v0);
-      
+
+      PVector n0 = PVector.sub(norm0, v0);
+      PVector n1 = PVector.sub(norm1, v0);
+
       float a0 = PVector.angleBetween(v0, n0);
       float a1 = PVector.angleBetween(v1, n1);
-      
+
       float hue0 = map(a0, 0, TWO_PI, 0, 360);
       float hue1 = map(a1, 0, TWO_PI, 0, 360);
 
@@ -825,7 +827,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -840,7 +842,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -854,7 +856,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -868,7 +870,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -882,7 +884,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -896,7 +898,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -910,7 +912,7 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
@@ -924,11 +926,218 @@ class Path
     {
       PVector n = v.copy();
       n.normalize();
-     // fill(n.x * 255, n.y * 255, 0);
+      // fill(n.x * 255, n.y * 255, 0);
       stroke(n.x * 255, n.y * 255, 255);
       vertex(v.x, v.y);
     }
     endShape();
+  }
+
+  /*-------------BUFFERED---------------*/
+  void displayPath(PGraphics buffer)
+  {
+    buffer.shape(pathShape);
+  }
+
+  void displayLerpStep(float scale, PGraphics buffer)
+  {
+    for (int i=0; i< lerpVertList.size(); i++)
+    {
+      PVector v = lerpVertList.get(i);
+      float hue = map(i, 0, lerpVertList.size(), i, 360);
+      buffer.noStroke();
+      buffer.fill(hue, 100, 100);
+      buffer.ellipse(v.x, v.y, scale, scale);
+    }
+  }
+
+  void displayLerpNormal(float scale, PGraphics buffer)
+  {
+    buffer.pushStyle();
+    buffer.colorMode(HSB, 360, 100, 100, 100);
+    PVector ov0 = lerpVertList.get(0);
+    PVector ov1 = lerpVertList.get(1);
+    PVector ov0toov1 = PVector.sub(ov1, ov0);
+    for (int i=0; i< lerpVertList.size()-1; i++)
+    {
+      PVector v0 = lerpVertList.get(i);
+      PVector v1 = lerpVertList.get(i+1);
+      PVector v0tov1 = PVector.sub(v1, v0);
+      float eta = -HALF_PI;
+      float phi = HALF_PI;
+      float ns = scale;
+
+      if ( i > 0)
+      {
+        PVector n0 = ov0toov1.copy().normalize();//.mult(20).add(new PVector(width/2, height/2));
+        PVector n1 = v0tov1.copy().normalize();//.mult(20).add(new PVector(width/2, height/2));
+
+        if ((int)PVector.angleBetween(n0, n1) !=  0)
+        {
+          PVector cross = n0.cross(n1);
+          //println(i, PVector.angleBetween(n0, n1), cross);
+          ns = v0tov1.mag() * sqrt(2);
+          if (cross.z > 0) //left
+          {
+            eta = PI+HALF_PI/2;
+            phi = PI/2 - HALF_PI/2;
+          } else //Right
+          {
+            eta = -HALF_PI/2;
+            phi = PI/2 + HALF_PI/2;
+          }
+        } else
+        {
+          eta = -HALF_PI;
+          phi = HALF_PI;
+          ns = v0tov1.mag();
+        }
+
+        ov0toov1 = v0tov1.copy();
+      }
+
+      PVector norm0 = v0tov1.copy();
+      norm0.normalize();
+      norm0.mult(ns);
+      norm0.rotate(eta);
+      norm0.add(v0);
+
+      PVector norm1 = v0tov1.copy();
+      norm1.normalize();
+      norm1.mult(ns);
+      norm1.rotate(phi);
+      norm1.add(v0);
+
+      PVector n0 = PVector.sub(norm0, v0);
+      PVector n1 = PVector.sub(norm1, v0);
+
+      float a0 = PVector.angleBetween(v0, n0);
+      float a1 = PVector.angleBetween(v1, n1);
+
+      float hue0 = map(a0, 0, TWO_PI, 0, 360);
+      float hue1 = map(a1, 0, TWO_PI, 0, 360);
+
+      buffer.stroke(hue0, 100, 100);
+      buffer.line(v0.x, v0.y, norm0.x, norm0.y);
+      buffer.stroke(hue1, 100, 100);
+      buffer.line(v0.x, v0.y, norm1.x, norm1.y);
+    }
+    buffer.popStyle();
+  }
+
+  void displayLerpShape(PGraphics buffer)
+  {
+    buffer.pushStyle();
+    buffer.strokeWeight(0.5);
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+    buffer.popStyle();
+  }
+
+  void displayLerpShapeSinScale(PGraphics buffer)
+  {
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeSinVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeNoiseSinScale(PGraphics buffer)
+  {
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeNoiseSinVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeNoiseScale(PGraphics buffer)
+  { 
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeNoiseVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeRandomScale(PGraphics buffer)
+  { 
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeRandomVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeRandomSinScale(PGraphics buffer)
+  { 
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeRandomSinVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeRandomGaussianScale(PGraphics buffer)
+  { 
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeRandomGaussianVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
+  }
+
+  void displayLerpShapeRandomGaussianSinScale(PGraphics buffer)
+  { 
+    buffer.beginShape(TRIANGLE_STRIP);
+    for (PVector v : lerpShapeRandomGaussianSinVertList)
+    {
+      PVector n = v.copy();
+      n.normalize();
+      // fill(n.x * 255, n.y * 255, 0);
+      buffer.stroke(n.x * 255, n.y * 255, 255);
+      buffer.vertex(v.x, v.y);
+    }
+    buffer.endShape();
   }
 
   //control
@@ -979,7 +1188,7 @@ class Path
     }
     return phi;
   }
-  
+
   ArrayList<PVector> getRawLerpVertList()
   {
     return lerpVertList;
@@ -1025,7 +1234,7 @@ class Path
   {
     return lerpShapeRandomGaussianSinVertList.size();
   }
-  
+
   int getVertListSize(ArrayList<PVector> list)
   {
     return list.size();
@@ -1072,8 +1281,8 @@ class Path
   {
     return lerpShapeRandomGaussianSinVertList.get(i).copy();
   }
-  
-   PVector getVertListAt(ArrayList<PVector> list, int i)
+
+  PVector getVertListAt(ArrayList<PVector> list, int i)
   {
 
     return list.get(i).copy();
@@ -1081,7 +1290,7 @@ class Path
 
   float getAngleAtLerp(ArrayList<PVector> list, int i)
   {
-     
+
     float phi = 0;
     if (i < list.size()-2)
     {
@@ -1098,7 +1307,7 @@ class Path
     }
     return phi;
   }
-  
+
   ArrayList<PVector> getList(int i)
   {
     ArrayList<PVector> list = new ArrayList<PVector>();
@@ -1127,7 +1336,7 @@ class Path
     {
       list = lerpShapeRandomGaussianSinVertList;
     }
-    
+
     return list;
   }
 }

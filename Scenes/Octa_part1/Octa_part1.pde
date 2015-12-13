@@ -8,7 +8,7 @@ ArrayList<Follower> followerlist;
 boolean debug = false;
 char[] charList = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
 char shapeIndex = '0';
-float scaleShape = 5;
+float scaleShape = 1;
 
 int globalIndex;
 
@@ -21,11 +21,12 @@ void setup() {
 
   loadJsonFile(linePathFile, "linePath_RAW");
   followerlist = new ArrayList<Follower>();
-  /*for (int i = 0; i < pathlist.size(); i++)
-   {
-   Path p = pathlist.get(i);
-   followerlist.add(new Follower(p, 250));
-   }*/
+
+  for (int i = 0; i < pathlist.size(); i++)
+  {
+    Path p = pathlist.get(i);
+    followerlist.add(new Follower(p, i, 1, 0.5, 6, 1));
+  }
 
   noStroke();
 }
@@ -34,21 +35,38 @@ void draw()
 {
   background(0);
 
+  strokeWeight(0.5);
+  noFill();
+  for (Path p : pathlist)
+  {
+    p.displayLerpNormal(10);
+    //p.displayLerpShape();
+    //p.displayLerpShapeSinScale();
+    // p.displayLerpShapeNoiseSinScale();
+    //p.displayLerpShapeNoiseScale();
+    //p.displayLerpShapeRandomScale();
+    //p.displayLerpShapeRandomSinScale();
+    //p.displayLerpShapeRandomGaussianScale();
+    //p.displayLerpShapeRandomGaussianSinScale();
+  }
+
   for (int i=0; i<followerlist.size(); i++)
   {
     Follower f = followerlist.get(i);
+    //f.showPath();
 
     if (f.getFinalEndAnimation())
     {
       //followerlist.remove(i);
     } else
     {
+      
       f.run();
-      //f.displayFollower();
+     // f.displayFollower();
       //f.displayLineDebugger();
       f.displayTail();
-      // f.setSpeed(random(1));
-      // f.setWeight(random(1));
+     // f.setSpeed(random(1));
+      //f.setWeight(random(1));
     }
   }
 

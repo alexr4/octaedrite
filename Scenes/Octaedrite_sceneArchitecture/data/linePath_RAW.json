@@ -52,7 +52,8 @@
         {"line.x": 1579,"line.y" :  611},
         {"line.x": 1610,"line.y" :  678},
         {"line.x": 1627,"line.y" :  729},
-        {"line.x": 1639,"line.y" :  774}
+        {"line.x": 1639,"line.y" :  774},
+        {"line.x": 1647,"line.y" :  794}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -80,7 +81,8 @@
         {"line.x": 413, "line.y" : 727},
         {"line.x": 439, "line.y" : 721},
         {"line.x": 434, "line.y" : 730},
-        {"line.x": 434, "line.y" : 750}
+        {"line.x": 434, "line.y" : 750},
+        {"line.x": 433, "line.y" : 763}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -188,7 +190,8 @@
         {"line.x": 1011,"line.y" :  155},
         {"line.x": 1010,"line.y" :  144},
         {"line.x": 1004,"line.y" :  124},
-        {"line.x": 1000,"line.y" :  114}
+        {"line.x": 1000,"line.y" :  114},
+        {"line.x": 998,"line.y" :  104}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -284,7 +287,8 @@
         {"line.x": 1377,"line.y" :  261},
         {"line.x": 1378,"line.y" :  245},
         {"line.x": 1378,"line.y" :  238},
-        {"line.x": 1379,"line.y" :  230}
+        {"line.x": 1379,"line.y" :  230},
+        {"line.x": 1379,"line.y" :  229}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -329,7 +333,8 @@
         {"line.x": 868, "line.y" : 243},
         {"line.x": 945, "line.y" : 214},
         {"line.x": 949, "line.y" : 222},
-        {"line.x": 1018,"line.y" :  202}
+        {"line.x": 1018,"line.y" :  202},
+        {"line.x": 988,"line.y" :  108}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -374,7 +379,8 @@
         {"line.x": 857, "line.y" : 381},
         {"line.x": 856, "line.y" : 378},
         {"line.x": 764, "line.y" : 356},
-        {"line.x": 743, "line.y" : 352}
+        {"line.x": 743, "line.y" : 352},
+        {"line.x": 734, "line.y" : 349}
     ],[
         {"stroke.r" : 255, "stroke.g" : 255, "stroke.b": 255, "stroke.a": 255},
         {"strokeWidth": 1},
@@ -401,6 +407,6 @@
         {"line.x": 463, "line.y":322},
         {"line.x": 439, "line.y":313},
         {"line.x": 415, "line.y":304},
-        {"line.x": 390, "line.y":298}
+        {"line.x": 390, "line.y":298},
     ]
 ]

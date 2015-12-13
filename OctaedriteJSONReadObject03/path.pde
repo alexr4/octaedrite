@@ -92,7 +92,7 @@ class Path
       } else
       {
         float vertx = item.getFloat("line.x");
-        float verty = height + item.getFloat("line.y"); //Hack : it's seems drawScript set y value from height - y
+        float verty = item.getFloat("line.y"); //Hack : it's seems drawScript set y value from height - y
         PVector vert = new PVector(vertx, verty);
         println("\tshape : "+indexPath+" — item : "+j+" : vertex : "+vert);
 
