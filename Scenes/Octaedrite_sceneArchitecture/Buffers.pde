@@ -77,18 +77,18 @@ void renderScene(int sceneIndex)
 
     //debug
     //stencilBuffer.translate(finalBuffer.width/2, finalBuffer.height/2);
-    for (Path p : pathlist)
-    {
-      // p.displayPath(finalBuffer);
-      //p.displayLerpNormal(10, finalBuffer);
-      //p.displayLerpShape(finalBuffer);
-      //p.displayLerpShapeSinScale(finalBuffer);
-      // p.displayLerpShapeNoiseSinScale(finalBuffer);
-      //p.displayLerpShapeNoiseScale(finalBuffer);
-      //p.displayLerpShapeRandomScale(finalBuffer);
-      //p.displayLerpShapeRandomSinScale(finalBuffer);
-      //p.displayLerpShapeRandomGaussianScale(finalBuffer);
-      //p.displayLerpShapeRandomGaussianSinScale(finalBuffer);
-    }
+    /*for (Path p : pathlist)
+     {
+     // p.displayPath(finalBuffer);
+     //p.displayLerpNormal(10, finalBuffer);
+     //p.displayLerpShape(finalBuffer);
+     //p.displayLerpShapeSinScale(finalBuffer);
+     // p.displayLerpShapeNoiseSinScale(finalBuffer);
+     //p.displayLerpShapeNoiseScale(finalBuffer);
+     //p.displayLerpShapeRandomScale(finalBuffer);
+     //p.displayLerpShapeRandomSinScale(finalBuffer);
+     //p.displayLerpShapeRandomGaussianScale(finalBuffer);
+     //p.displayLerpShapeRandomGaussianSinScale(finalBuffer);
+     }*/
   }
 }
