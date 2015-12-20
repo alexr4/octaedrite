@@ -129,15 +129,15 @@ class PtLight
   void display(PGraphics buffer, boolean debug)
   {
     buffer.pointLight(rgb.x, rgb.y, rgb.z, pos.x, pos.y, pos.z);
-    //buffer.spotLight(rgb.x, rgb.y, rgb.z, pos.x, pos.y, pos.z, 0, 0, -1, PI, 0.5);
+   // buffer.spotLight(rgb.x, rgb.y, rgb.z, pos.x, pos.y, pos.z, 0, 0, -1, PI, 0.5);
     if (debug)
     {
       buffer.pushStyle();
       buffer.strokeWeight(5);
       buffer.stroke(rgb.x, 0, 0);//rgb.y, rgb.z);
-      buffer.point(pos.x, pos.y, pos.z);      
+      buffer.point(x, y, z);      
       buffer.strokeWeight(1);
-      buffer.line(pos.x, pos.y, 0.0, pos.x, pos.y, pos.z);
+      buffer.line(pos.x, pos.y, 0.0, pos.x, pos.y, pos.y);
       buffer.popStyle();
     }
   }
@@ -147,7 +147,7 @@ class PtLight
   {
     pos.x = pos_.x;//screenX(pos_.x, pos_.y, pos_.z);
     pos.y = pos_.y;//screenY(pos_.x, pos_.y, pos_.z);
-    pos.z = 250;//screenZ(pos_.x, pos_.y, pos_.z);
+    pos.z = 50;//screenZ(pos_.x, pos_.y, pos_.z);
     //pos.z = pos_.z;
   }
 

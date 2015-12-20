@@ -37,7 +37,7 @@ void setup() {
   center =  new PVector(octaCenter.x+globalCoord.x, octaCenter.y+globalCoord.y);
 
   ofList = new ArrayList<OutlineFollower>();
-  //initTest();
+  initTest();
   background(0);
 }
 
@@ -45,7 +45,7 @@ void draw() {
   background(0);
   displayDiffuse(displayDiffuse, globalCoord, globalScale);
   displayOCVsource(displayOCVsource, 0.10);
-  //displayShape(displayShape, globalCoord);
+  displayShape(displayShape, globalCoord);
   displayShapeCenter(displayShapeCenter, globalCoord);
   displayOrientationArrow(displayOrientationArrow, globalCoord);
   displayNormals(displayNormals, globalCoord);

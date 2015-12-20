@@ -18,14 +18,15 @@ OSC message architecture :
  
  */
 int sceneIndex;
-String[] sceneList = 
-  {"/scene00_00_P5", 
-  "/scene01_00_P5", 
-  "/scene01_01_P5", 
-  "/scene02_00_P5", 
-  "/scene02_01_P5", 
-  "/scene02_02_P5", 
-  "/scene02_03_P5"}; 
+String[] sceneList = {
+  "/scene00_00_P5", //0
+  "/scene01_00_P5", //1
+  "/scene01_01_P5", //2
+  "/scene02_00_P5", //3
+  "/scene02_01_P5", //4
+  "/scene02_02_P5", //5
+  "/scene02_03_P5"  //6
+}; 
 
 //JSON FILES
 JSONArray linePathFile;
@@ -40,8 +41,12 @@ boolean debug3DWorld;
 Octaedrite octaedrite;
 
 //Scene1
-ArrayList<Follower> followerlist;
-ArrayList<PtLight> lightList;
+ArrayList<Follower> followerlistScene00;
+ArrayList<PtLight> lightList; //NOT ACTIVATED
+
+//Scene 02-01
+ArrayList<OutlineFollower> ofListScene0101;
+int ofLimitScene0101;
 
 
 //Debug
@@ -50,6 +55,7 @@ FPSTracking fpstracker;
 void setup()
 {
   size(1280, 720, P3D);
+  //fullScreen(P3D, 1);
   //OSCCLIENT
   initOSCP5("127.0.0.1", 12000, 12000);
 
@@ -59,15 +65,17 @@ void setup()
   stencilBuffer = initBuffers(1920, 1080);
   stencilBufferRatio = computeBufferRatio(stencilBuffer.width, stencilBuffer.height);
 
-  //3 Shape
-  octaedrite = new Octaedrite(); 
+  //3D & 2D Shape 
+  octaedrite = new Octaedrite();
+  initOCVOutlines(this);
   
   //initScene
   initScene00();
+  initScene0101();
 
 
   appParameter();
-  surface.setLocation(20, 20);
+  //surface.setLocation(20, 20);
   float w = 100;
   float h = 25;
   fpstracker = new FPSTracking(floor(w), 60, w, h);
@@ -85,14 +93,13 @@ void draw()
 {
   //computation
   renderFinalBuffer();
+  renderStencilBuffer();
 
   background(20);
   image(finalBuffer, 0, 0, width, height);//, finalBuffer.width * 0.5, (finalBuffer.width * 0.5) / finalBufferRatio);
   image(stencilBuffer, 0, height-(stencilBuffer.width * 0.1) / stencilBufferRatio, stencilBuffer.width * 0.1, (stencilBuffer.width * 0.1) / stencilBufferRatio);
 
-
-
-
   showFpsOnFrameTitle();
-  showDebug(true);
+  showDebug(true); 
+  //debugScene0101(noise(frameCount * 0.05));
 }

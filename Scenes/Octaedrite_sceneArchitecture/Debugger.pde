@@ -34,17 +34,54 @@ void showDebugSequence(boolean state)
   }
 }
 
+int index_= 0;
+
 void mousePressed() {
-  /* createan osc message with address pattern /test */
+  //debugScene00();
+  //scene01_01_P5(1);
+  //debugScene0101();
+}
+
+//scene01_01_P5(int index_, int onOff_, float beginLocation_, float endLocation_, float speed_)
+void debugScene00() {
   OscMessage myMessage = new OscMessage("/scene00_00_P5");
 
-  //myMessage.add("u");
-  myMessage.add(1);
- //myMessage.add(1);
-  //myMessage.add(1.0);
-  //myMessage.add(1.0);
-  // myMessage.add(1.0); 
+  float b = random(1);
 
-  /* send the message */
+  //myMessage.add("u");
+  myMessage.add(index_);
+  myMessage.add(1);
+  myMessage.add(random(1.0));
+  myMessage.add(random(1.0)); 
+
+  oscP5.send(myMessage, myRemoteLocation);
+
+  index_ ++;
+}
+
+void debugScene0101() {
+  OscMessage myMessage = new OscMessage("/scene01_01_P5");
+
+  float b = random(1);
+
+  //myMessage.add("u");
+  myMessage.add(index_);
+  myMessage.add(1);
+  myMessage.add(b);
+  myMessage.add(random(b, 1.0));
+  myMessage.add(random(0.1)); 
+
+  oscP5.send(myMessage, myRemoteLocation);
+
+  index_ ++;
+}
+
+void debugScene0101(float value) {
+  OscMessage myMessage = new OscMessage("/scene01_01_P5");
+
+
+  //myMessage.add("u");
+  myMessage.add(value); 
+
   oscP5.send(myMessage, myRemoteLocation);
 }

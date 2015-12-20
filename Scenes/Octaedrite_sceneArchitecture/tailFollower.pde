@@ -103,7 +103,7 @@ class Follower
         if (!sendOscAtEnd)
         {
           println("end animation");
-          sendMessage(index, 1);
+          sendMessage("/P5_scene00_00", index, 1);
           sendOscAtEnd = true;
         }
       } else
@@ -138,7 +138,7 @@ class Follower
     {
       println("final end animation");
       finalEndAnimation = true;
-      sendMessage(index, -1);
+      sendMessage("/P5_scene00_00", index, -1);
     } else
     {
       finalEndAnimation = false;
@@ -287,7 +287,7 @@ class Follower
     }
     buffer.endShape();
     
-    buffer.ellipse(getHeadPosition().x, getHeadPosition().y, 20, 20);
+    //buffer.ellipse(getHeadPosition().x, getHeadPosition().y, 20, 20);
     buffer.popStyle();
   }
 

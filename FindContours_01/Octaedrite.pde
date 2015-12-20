@@ -28,7 +28,7 @@ float noisePositionOffset;
 //Init Methods
 void initOpenCV(PApplet context)
 {
-  src = loadImage("shape02.jpg"); 
+  src = loadImage("shape03.jpg"); 
   opencv = new OpenCV(context, src);
 
   opencv.gray();
@@ -43,7 +43,7 @@ void initOpenCV(PApplet context)
 void initVariables()
 {
   diffuse = loadImage("diffuse.jpg");
-  octaPath = contours.get(7);
+  octaPath = contours.get(4);
   vertList = new ArrayList<PVector>();
   normalList = new ArrayList<PVector>();
   shapeVertList = new ArrayList<PVector>();

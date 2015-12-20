@@ -5,13 +5,13 @@ float globalScale;
 
 boolean displayOCVsource = true;
 boolean displayDiffuse = true;
-boolean displayShape;
-boolean displayProgressiveShape;
-boolean displayShapeCenter;
-boolean displayOrientationArrow;
-boolean displayNormals;
+boolean displayShape = true;;
+boolean displayProgressiveShape = true;;
+boolean displayShapeCenter = true;;
+boolean displayOrientationArrow = true;;
+boolean displayNormals = true;;
 boolean displayFollower = true;
-boolean updateFollowerNoisePosition;
+boolean updateFollowerNoisePosition = true;;
 
 
 void setup() {
