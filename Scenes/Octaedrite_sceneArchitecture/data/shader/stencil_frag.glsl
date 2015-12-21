@@ -1,19 +1,14 @@
-#version 150
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
+#version 410
 
 uniform sampler2D stencil;
 
-varying vec4 vertColor;
-varying vec4 vertTexCoord;
+in vec4 vertColor;
+in vec4 vertTexCoord;
 
+out vec4 fragColor;
 
 void main()
 {
-	vec4 texdiffuse = texture2D(stencil, vertTexCoord.st);
-
-
-	gl_FragColor =texdiffuse;
+	vec4 texdiffuse = texture2D(stencil, vertTexCoord.xy).rgba;
+	fragColor = texdiffuse;
 }

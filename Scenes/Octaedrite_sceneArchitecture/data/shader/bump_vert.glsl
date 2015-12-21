@@ -1,6 +1,4 @@
-#version 150
-#define PROCESSING_TEXLIGHT_SHADER
-
+#version 410
 uniform mat4 modelview;
 uniform mat4 transform;
 uniform mat4 texMatrix;
@@ -11,18 +9,18 @@ uniform int lightCount;
 uniform vec4 lightPosition[8];
 uniform vec3 lightNormal[8];
 
-attribute vec4 vertex;
-attribute vec4 color;
-attribute vec3 normal;
-attribute vec2 texCoord;
-attribute vec4 tangent;
+in vec4 vertex;
+in vec4 color;
+in vec3 normal;
+in vec4 texCoord;
+in vec4 tangent;
 
-varying vec4 vertColor;
-varying vec4 vertTexCoord;
-varying vec3 ecNormal;
-varying vec3 ecVertex;
-varying vec3 lightDir[8];
-varying vec3 viewDir;
+out vec4 vertColor;
+out vec4 vertTexCoord;
+out vec3 ecNormal;
+out vec3 ecVertex;
+out vec3 lightDir[8];
+out vec3 viewDir;
 
 void main()
 {
@@ -35,7 +33,7 @@ void main()
   	}
 
 	vertColor = color;
-	vertTexCoord =  texMatrix * vec4(texCoord, 1.0, 1.0);
+	vertTexCoord =  texCoord;//texMatrix * vec4(texCoord, 1.0, 1.0);
 
 	gl_Position = transform * vertex;
 }

@@ -1,9 +1,4 @@
-#version 150
-#define PROCESSING_TEXLIGHT_SHADER
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
+#version 410
 
 uniform sampler2D diffuse;
 uniform sampler2D mask;
@@ -16,11 +11,11 @@ uniform vec4 lightPosition[8];
 // diffuse is the color element of the light
 uniform vec3 lightDiffuse[8];
 
-varying vec4 vertColor;
-varying vec4 vertTexCoord;
-varying vec3 ecNormal;
-varying vec3 ecVertex;
-varying vec3 lightDir[8];
+in vec4 vertColor;
+in vec4 vertTexCoord;
+in vec3 ecNormal;
+in vec3 ecVertex;
+in vec3 lightDir[8];
 
 //material
 uniform vec3 kd;//Diffuse reflectivity
@@ -30,6 +25,8 @@ uniform float shininess;//shine factor
 uniform vec3 emissive;
 uniform float minNormalEmissive;
 uniform float alphaAlbedo;
+
+out vec4 fragColor;
 
 vec3 ads(vec3 dir, vec3 color)
 {
@@ -46,10 +43,10 @@ vec3 ads(vec3 dir, vec3 color)
 
 void main()
 {
-	vec4 texdiffuse = texture2D(diffuse, vertTexCoord.st);
-	//vec4 texdisplacement = texture2D(displacement, vertTexCoord.st);
-	vec4 texmask = texture2D(mask, vertTexCoord.st);
-	vec4 texbump = texture2D(bumpmap, vertTexCoord.st);
+	vec4 texdiffuse = texture2D(diffuse, vertTexCoord.xy).rgba;
+	//vec4 texdisplacement = texture2D(displacement, vertTexCoord.xy);
+	vec4 texmask = texture2D(mask, vertTexCoord.xy).rgba;
+	vec4 texbump = texture2D(bumpmap, vertTexCoord.xy).rgba;
 	vec3 normalmap = vec3(texbump.xyz) * 2.0 - 1.0; 
 
 	//lights
@@ -69,5 +66,5 @@ void main()
 
 	vec4 albedo = vec4(diffuse.xyz, texmask.r * alphaAlbedo) * vec4(final_light_color.rgb, alphaAlbedo);
 
-	gl_FragColor = albedo;
+	fragColor = albedo;
 }

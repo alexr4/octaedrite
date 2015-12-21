@@ -22,7 +22,7 @@ void setup() {
   initVariables();
   globalScale = 0.5;
   globalCoord = new PVector((width-(src.width*globalScale))/2, (height-(src.height*globalScale))/2);
-  computeShape(4, octaPath.getPoints().size(), globalScale, 5, 50);
+  computeShape(50, octaPath.getPoints().size(), globalScale, 5, 50);
 }
 
 void draw() {
@@ -33,8 +33,8 @@ void draw() {
   displayShapeCenter(displayShapeCenter, globalCoord);
   displayOrientationArrow(displayOrientationArrow, globalCoord);
   displayNormals(displayNormals, globalCoord);
-  displayProgressiveShape(displayProgressiveShape, globalCoord, 200);
-  displayFollower(displayFollower, globalCoord, updateFollowerNoisePosition);
+ /* displayProgressiveShape(displayProgressiveShape, globalCoord, 200);
+  displayFollower(displayFollower, globalCoord, updateFollowerNoisePosition);*/
 }
 
 void keyPressed()
